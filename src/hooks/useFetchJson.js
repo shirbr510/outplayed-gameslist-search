@@ -4,11 +4,14 @@ const useFetchJson = (url, options) => {
   const [response, setResponse] = useState(null);
 
   useEffect(() => {
+    if (!url) {
+      return () => {};
+    }
     const controller = new AbortController();
     const fetchResponse = async () => {
       const response = await fetch(url, {
         ...options,
-        signal: controller.signal
+        signal: controller.signal,
       });
       const json = await response.json();
       setResponse(json);
